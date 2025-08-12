@@ -1,23 +1,15 @@
 // swift-tools-version: 5.4
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
     name: "SukiAmbientCore",
-    platforms: [
-        .iOS("15.0")
-    ],
-    products: [
-        .library(
-            name: "SukiAmbientCore",
-            targets: ["SukiAmbientCore"]
-        ),
-    ],
+    platforms: [.iOS("15.0")],
+    products: [.library(name: "SukiAmbientCore", targets: ["SukiAmbientCore"])],
     targets: [
         .binaryTarget(
             name: "SukiAmbientCore",
-            url: "https://github.com/LearningMotors/iOS-SDK/releases/download/2.3.0/SukiAmbientCore.xcframework.zip"
+            url: "https://github.com/LearningMotors/iOS-SDK/releases/download/2.4.0/SukiAmbientCore.xcframework.zip",
+            checksum: "f26e613d35cfb02c8706d66d9186cf342128e325102694380f77cabfe7ce16b5"
         )
     ]
 )
