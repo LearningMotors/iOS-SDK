@@ -1,0 +1,11 @@
+framework module SukiAmbientCore {
+  umbrella header "SukiAmbientCore.h"
+  export *
+
+  module * { export * }
+}
+
+module SukiAmbientCore.Swift {
+  header "SukiAmbientCore-Swift.h"
+  requires objc
+}
