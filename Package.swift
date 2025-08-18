@@ -8,7 +8,7 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "SukiAmbientCore",
-            path: "Releases//SukiAmbientCore.xcframework"
+            path: "Releases/2.2.2/SukiAmbientCore.xcframework"
         )
     ]
 )
