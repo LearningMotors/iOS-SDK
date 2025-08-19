@@ -1,0 +1,360 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target arm64-apple-ios15.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name SukiAmbientCore
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+import AVFoundation
+import AVKit
+import CommonCrypto
+import CoreData
+import CryptoKit
+import Foundation
+import Network
+@_exported import SukiAmbientCore
+import Swift
+import UIKit
+import UniformTypeIdentifiers
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_inheritsConvenienceInitializers @objc(AmbientSessionInfo) public class AmbientSessionInfo : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+extension SukiAmbientCore.DiagnosisCode : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+public struct PersonalizationPreferences {
+  public var verbosity: SukiAmbientCore.Verbosity?
+  public init(verbosity: SukiAmbientCore.Verbosity?, noteSections: [SukiAmbientCore.NoteSectionPreference]?)
+}
+extension SukiAmbientCore.PersonalizationPreferences : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum Verbosity : Swift.String {
+  case concise
+  case balanced
+  case detailed
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct NoteSectionPreference {
+  public var loinc: Swift.String
+  public var style: SukiAmbientCore.NoteStyle
+  public init(loinc: Swift.String, style: SukiAmbientCore.NoteStyle)
+}
+extension SukiAmbientCore.NoteSectionPreference : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum NoteStyle : Swift.String {
+  case narrative
+  case bulleted
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct PreferenceResponseModel {
+  public let verbosity: Swift.String
+  public let sectionFormat: [SukiAmbientCore.PreferenceResponseModel.SectionPreferenceResponse]
+  public struct SectionPreferenceResponse {
+    public let loinc: Swift.String
+    public let style: Swift.String
+  }
+}
+@_inheritsConvenienceInitializers @objc(MetricEventStore) public class MetricEventStore : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+public struct SukiStatus : Swift.Error, Swift.Sendable {
+  public var code: Swift.Int
+  public var message: Swift.String?
+}
+public protocol TokenProvider {
+  func accessToken(onCallback callback: @escaping ((Swift.Result<Swift.String, any Swift.Error>) -> Swift.Void))
+}
+public protocol SukiAmbientSessionDelegate : AnyObject {
+  func sukiAmbient(sessionEvent event: SukiAmbientCore.SessionEvent, for recordingId: SukiAmbientCore.RecordingId)
+}
+public typealias StatusCallback = ((Swift.Result<SukiAmbientCore.SuggestionStatus, any Swift.Error>) -> Swift.Void)
+public typealias TranscriptCallback = ((Swift.Result<SukiAmbientCore.TranscriptResponseModel, any Swift.Error>) -> Swift.Void)
+public typealias InitializeCallback = ((Swift.Result<Swift.Bool, any Swift.Error>) -> Swift.Void)
+public typealias SessionCreateCallback = ((Swift.Result<SukiAmbientCore.SessionResponse, any Swift.Error>) -> Swift.Void)
+public typealias RegistrationCallback = ((Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)
+public typealias ContentCallback = ((Swift.Result<[SukiAmbientCore.Suggestion], any Swift.Error>) -> Swift.Void)
+public typealias StructuredDataCallback = ((Swift.Result<SukiAmbientCore.StructuredDataResponseModel, any Swift.Error>) -> Swift.Void)
+public typealias PreferencesCallback = ((Swift.Result<SukiAmbientCore.PreferenceResponseModel, any Swift.Error>) -> Swift.Void)
+public typealias SessionDetail = [Swift.String : Swift.AnyHashable]
+public typealias ContextDetail = [Swift.String : Swift.AnyHashable]
+public typealias PartnerDetail = [Swift.String : Swift.AnyHashable]
+public typealias BackgroundRecordingEnabled = Swift.Bool
+public typealias SessionId = Swift.String
+public typealias RecordingId = Swift.String
+public typealias SessionContextCallback = ((Swift.Result<Swift.Void, any Swift.Error>) -> Swift.Void)?
+@_hasMissingDesignatedInitializers final public class SukiAmbientCoreManager {
+  public static let shared: SukiAmbientCore.SukiAmbientCoreManager
+  final public var environment: SukiAmbientCore.SDKEnvironment
+  final public func initialize(with partnerInfoDict: SukiAmbientCore.PartnerDetail, with enabled: SukiAmbientCore.BackgroundRecordingEnabled, onCompletion completionHandler: @escaping SukiAmbientCore.InitializeCallback, withSessionDelegate delegate: (any SukiAmbientCore.SukiAmbientSessionDelegate)? = nil, withTokenProvider tokenProvider: any SukiAmbientCore.TokenProvider)
+  final public func createSession(with sessionInfoDict: SukiAmbientCore.SessionDetail, withSessionDelegate delegate: (any SukiAmbientCore.SukiAmbientSessionDelegate)? = nil, onCompletion completionHandler: @escaping SukiAmbientCore.SessionCreateCallback)
+  final public func setSessionContext(with context: SukiAmbientCore.ContextDetail, onCompletion completionHandler: SukiAmbientCore.SessionContextCallback)
+  final public func start() throws
+  final public func pause() throws
+  final public func resume() throws
+  final public func cancel() throws
+  final public func end() throws
+  final public func status(for recordingId: SukiAmbientCore.RecordingId, onCompletion completionHandler: @escaping SukiAmbientCore.StatusCallback)
+  final public func transcript(for recordingId: SukiAmbientCore.RecordingId, onCompletion completionHandler: @escaping SukiAmbientCore.TranscriptCallback)
+  final public func content(for recordingId: SukiAmbientCore.RecordingId, onCompletion completionHandler: @escaping SukiAmbientCore.ContentCallback)
+  final public func getStructuredData(for recordingId: SukiAmbientCore.RecordingId, onCompletion completionHandler: @escaping SukiAmbientCore.StructuredDataCallback)
+  final public func setPersonalizationPreferences(_ preferences: SukiAmbientCore.PersonalizationPreferences?, completionHandler: @escaping SukiAmbientCore.PreferencesCallback)
+  final public func clear() throws
+  @objc deinit
+}
+extension SukiAmbientCore.DiagnosisInfo : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+@_inheritsConvenienceInitializers @objc(AmbientSessionSection) public class AmbientSessionSection : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+extension SukiAmbientCore.AmbientSessionSection {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<SukiAmbientCore.AmbientSessionSection>
+}
+extension SukiAmbientCore.AmbientSessionSection : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+@_inheritsConvenienceInitializers @objc(PatientDetails) public class PatientDetails : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+extension SukiAmbientCore.AmbientSessionInfo : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+public struct DiagnosisResponse : Swift.Codable {
+  public let note: Swift.String
+  public let codes: [SukiAmbientCore.DiagnosisCodeResponse]
+  public let postCoordinationFlag: Swift.Int
+  public let lateralityIndicator: Swift.Int
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DiagnosisCodeResponse : Swift.Codable {
+  public let type: Swift.String
+  public let code: Swift.String
+  public let description: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DiagnosesResponse : Swift.Codable {
+  public let diagnoses: [SukiAmbientCore.DiagnosisResponse]
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct StructuredDataModel : Swift.Codable {
+  public let diagnoses: SukiAmbientCore.DiagnosesResponse
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct StructuredDataResponseModel : Swift.Codable {
+  public let structuredData: SukiAmbientCore.StructuredDataModel
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension SukiAmbientCore.PatientDetails : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+@_inheritsConvenienceInitializers @objc(DiagnosisInfo) public class DiagnosisInfo : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+public struct SessionResponse : Swift.Codable {
+  public var sessionId: Swift.String
+  public var recordingId: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Suggestion : Swift.Codable {
+  public var title: Swift.String
+  public var content: Swift.String
+  public var loincCode: Swift.String
+  public init(_ title: Swift.String, _ content: Swift.String, _ loincCode: Swift.String)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum SectionCodeType : Swift.String, Swift.Codable {
+  case loinc
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct TranscriptResponseModel : Swift.Codable {
+  public var finalTranscript: [SukiAmbientCore.Transcript]?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Transcript : Swift.Codable {
+  public var transcript: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_inheritsConvenienceInitializers @objc(DiagnosisCode) public class DiagnosisCode : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+extension SukiAmbientCore.MetricEventStore {
+  @nonobjc public class func fetchRequest(withLimit limit: Swift.Int = 10) -> CoreData.NSFetchRequest<SukiAmbientCore.MetricEventStore>
+  @nonobjc public class func fetchRequest(withProviderIdId providerId: Swift.String) -> CoreData.NSFetchRequest<SukiAmbientCore.MetricEventStore>
+  @nonobjc public class func fetchRequest(withEventId eventId: Swift.String) -> CoreData.NSFetchRequest<SukiAmbientCore.MetricEventStore>
+}
+extension SukiAmbientCore.MetricEventStore : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+extension SukiAmbientCore.Diagnosis : Swift.Identifiable {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.ObjectIdentifier
+}
+@_inheritsConvenienceInitializers @objc(Diagnosis) public class Diagnosis : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+public struct SukiAmbientConstant {
+  public static let kPartnerId: Swift.String
+  public static let kProviderInfo: Swift.String
+  public static let kDiagnosisInfo: Swift.String
+  public static let kDiagnosisNote: Swift.String
+  public static let kCodes: Swift.String
+  public static let kCodeDescription: Swift.String
+  public static let kId: Swift.String
+  public static let kOrgId: Swift.String
+  public static let kName: Swift.String
+  public static let kSpeciality: Swift.String
+  public static let kGender: Swift.String
+  public static let kSessionId: Swift.String
+  public static let kSections: Swift.String
+  public static let kBirthdate: Swift.String
+  public static let kPatientInfo: Swift.String
+  public static let kIsMultilingual: Swift.String
+  public static let kCode: Swift.String
+  public static let kCodeType: Swift.String
+}
+public enum SDKEnvironment : Swift.String {
+  case STAGE
+  case PROD
+  case DEV
+  case TEST
+  public static func getSDKVersion() -> Swift.String
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SuggestionStatus : Swift.String {
+  case inProgress
+  case completed
+  case failed
+  case waitingForUpload
+  case preUploadTask
+  case uploadInProgress
+  case uploadCompleted
+  case uploadFailed
+  case processingUpload
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SukiAmbientCoreError : Swift.Error {
+  case sessionInProgress
+  case invalidPartnerId
+  case invalidProviderDetails
+  case invalidSections(error: (any Swift.Error)?)
+  case invalidProviderId
+  case invalidProviderOrganisation
+  case invalidProviderName
+  case invalidName
+  case invalidBirthdate
+  case invalidPatient
+  case SDKAlreadyInitilized
+  case SDKNotInitilized(error: (any Swift.Error)? = nil)
+  case noSessionExist
+  case invalidContext
+  case micIsInUse
+  case needMicrophonePermissionRecording
+  case unableToCreateSession
+  case unableFetchStatus
+  case unableFetchContent
+  case unableFetchStructuredData
+  case unableFetchTranscript
+  case appIsNotActive
+  case invalidSpeciality
+  case missingDiagnosisCodes
+  case missingCodeFields
+  case noValidDiagnosis
+  case invalidPreferences
+}
+extension SukiAmbientCore.SukiAmbientCoreError : Swift.Equatable {
+  public static func == (lhs: SukiAmbientCore.SukiAmbientCoreError, rhs: SukiAmbientCore.SukiAmbientCoreError) -> Swift.Bool
+}
+public enum SessionEvent {
+  case started
+  case resumed
+  case paused
+  case ended
+  case cancelled
+  case suggestionGenerationInProgress
+  case suggestionsGenerated
+  case suggestionsGenerationFailed
+  case audioInterruptionStarted
+  case audioInterruptionEnded
+  case convertedToOfflineSession
+  case pendingOfflineUpload
+  case preparingOfflineUpload
+  case uploadingAudio
+  case audioUploadFailed
+  case audioUploadAllRetryFailed
+  case audioUploaded
+  case processingUpload
+  case processingUploadFailed
+  case clearingBufferredAudio
+  case clearedBufferredAudio
+  public static func == (a: SukiAmbientCore.SessionEvent, b: SukiAmbientCore.SessionEvent) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension SukiAmbientCore.Verbosity : Swift.Equatable {}
+extension SukiAmbientCore.Verbosity : Swift.Hashable {}
+extension SukiAmbientCore.Verbosity : Swift.RawRepresentable {}
+extension SukiAmbientCore.NoteStyle : Swift.Equatable {}
+extension SukiAmbientCore.NoteStyle : Swift.Hashable {}
+extension SukiAmbientCore.NoteStyle : Swift.RawRepresentable {}
+extension SukiAmbientCore.SectionCodeType : Swift.Equatable {}
+extension SukiAmbientCore.SectionCodeType : Swift.Hashable {}
+extension SukiAmbientCore.SectionCodeType : Swift.RawRepresentable {}
+extension SukiAmbientCore.SDKEnvironment : Swift.Equatable {}
+extension SukiAmbientCore.SDKEnvironment : Swift.Hashable {}
+extension SukiAmbientCore.SDKEnvironment : Swift.RawRepresentable {}
+extension SukiAmbientCore.SuggestionStatus : Swift.Equatable {}
+extension SukiAmbientCore.SuggestionStatus : Swift.Hashable {}
+extension SukiAmbientCore.SuggestionStatus : Swift.RawRepresentable {}
+extension SukiAmbientCore.SessionEvent : Swift.Equatable {}
+extension SukiAmbientCore.SessionEvent : Swift.Hashable {}
