@@ -8,8 +8,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "SukiAmbientCore",
-            url: "https://github.com/LearningMotors/iOS-SDK/releases/download/2.6.0/SukiAmbientCore.xcframework.zip",
-            checksum: "cb09838a81cd1c44addedf7472c358379e447c90fa07e937878bc28aea195247"
+            url: "https://github.com/LearningMotors/iOS-SDK/releases/download/2.6.1/SukiAmbientCore.xcframework.zip",
+            checksum: "b07e36b37c9b68542841f5e6a44f97e271a0b8b689a857e321b7ff98234e1710"
         )
     ]
 )
